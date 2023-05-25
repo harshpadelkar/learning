@@ -61,25 +61,21 @@ const Carousel = ({ data, loading, endpoint, title }) => {
         {!loading ? (
           <div className="carouselItems" ref={carouselContainer}>
             {data?.map((item) => {
-              const { asset } = item.coursePostedBy.courseImage;
-              console.log(item.topic);
+              const { url } = item.courseImage.asset;
+              console.log(url);
               return (
                 <div
                   key={item._id}
                   className="carouselItem"
-                  //   onClick={() =>
-                  //     navigate(`/${item.media_type || endpoint}/${item.id}`)
-                  //   }
+                  onClick={() => navigate(`/${item.topic}/${item._id}`)}
                 >
                   <div className="posterBlock">
-                    <Img src={asset.url} />
+                    <Img src={url} />
                     {/* <CircleRating rating={item.vote_average.toFixed(1)} /> */}
                     <Genres data={item.topic} />
                   </div>
                   <div className="textBlock">
-                    <span className="title">
-                      {item.coursePostedBy.courseName}
-                    </span>
+                    <span className="title">{item.courseName}</span>
                     {/* <span className="date">
                           {dayjs(item.release_date || item.first_air_date).format(
                             "MMM D, YYYY"
