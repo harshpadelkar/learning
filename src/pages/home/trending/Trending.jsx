@@ -39,7 +39,21 @@ const Trending = () => {
           },
         },
         topic,
-        playlist
+        post[]->{
+          _id,
+          caption,
+          video{
+            asset->{
+              _id,
+              url
+            }
+          },
+          postedBy->{
+            _id,
+            userName,
+            image
+          },
+        }
       }`);
 
   console.log(harshData && harshData);
