@@ -1,0 +1,49 @@
+export const courses = `*[_type == "course"] | order(_createdAt desc){
+    _id,
+   courseName,
+   courseImage{
+     asset->{
+       _id,
+       url
+     }
+   },
+   video{
+     asset->{
+       _id,
+       url
+     }
+   },
+ likes,
+ comments[]{
+   comment,
+   _key,
+   postedBy->{
+   _id,
+   userName,
+   image
+ },
+},
+postedBy->{
+    _id,
+    userName,
+    image
+  },
+topic,
+active,
+publishedAt,
+post[]->{
+ _id,
+ caption,
+ video{
+   asset->{
+     _id,
+     url
+   }
+ },
+ postedBy->{
+   _id,
+   userName,
+   image
+ },
+}
+}`;

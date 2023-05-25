@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { courses } from "../../query";
 import "./style.scss";
 
 import useFetch from "../../hooks/useFetch";
@@ -8,18 +9,23 @@ import Cast from "./cast/Cast";
 import VideosSection from "./videosSection/VideosSection";
 import Similar from "./carousels/Similar";
 import Recommendation from "./carousels/Recommendation";
+import useHarsh from "../../hooks/useHarsh";
 
 const Details = () => {
   const { mediaType, id } = useParams();
 
-  //   const { data, loading } = useFetch(`/${mediaType}/${id}/videos`);
-  //   const { data: credits, loading: creditsLoading } = useFetch(
-  //     `/${mediaType}/${id}/credits`
-  //   );
+  const { data: harshData, loading: harshLoading } = useHarsh(courses);
+
+  const detailedCourse = harshData?.filter((course) => course._id === id);
+
+  // console.log(data);
+  // const { data: credits, loading: creditsLoading } = useFetch(
+  //   `/${mediaType}/${id}/credits`
+  // );
 
   return (
     <div>
-      <p style={{ fontSize: "10rem" }}>{mediaType}</p> 
+      {<DetailsBanner video={detailedCourse?.[0]} loading={harshLoading} />}
     </div>
   );
 };

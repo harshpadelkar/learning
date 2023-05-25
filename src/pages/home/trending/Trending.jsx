@@ -3,58 +3,16 @@ import React, { useState } from "react";
 import Carousel from "../../../components/carousel/Carousel";
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import SwitchTabs from "../../../components/switchTabs/SwitchTabs";
+import { courses } from "../../../query";
 
-import useFetch from "../../../hooks/useFetch";
 import useHarsh from "../../../hooks/useHarsh";
 
 const Trending = () => {
   const [endpoint, setEndpoint] = useState("day");
 
-  const { data, loading } = useFetch(`/trending/movie/${endpoint}`);
+  // const { data, loading } = useFetch(`/trending/movie/${endpoint}`);
 
-  const { data: harshData, loading: harshLoading } =
-    useHarsh(`*[_type == "course"] | order(_createdAt desc){
-             _id,
-            courseName,
-            courseImage{
-              asset->{
-                _id,
-                url
-              }
-            },
-            video{
-              asset->{
-                _id,
-                url
-              }
-            },
-          likes,
-          comments[]{
-            comment,
-            _key,
-            postedBy->{
-            _id,
-            userName,
-            image
-          },
-        },
-        topic,
-        post[]->{
-          _id,
-          caption,
-          video{
-            asset->{
-              _id,
-              url
-            }
-          },
-          postedBy->{
-            _id,
-            userName,
-            image
-          },
-        }
-      }`);
+  const { data: harshData, loading: harshLoading } = useHarsh(courses);
 
   console.log(harshData && harshData);
 
