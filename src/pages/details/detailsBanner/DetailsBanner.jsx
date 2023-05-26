@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+import StarRatings from "react-star-ratings";
 
 import "./style.scss";
 
@@ -24,9 +23,7 @@ const DetailsBanner = ({ video, loading, crew }) => {
         <>
           {!!video && (
             <React.Fragment>
-              {/* <div className="backdrop-img">
-                                <Img src={url.backdrop + data.backdrop_path} />
-                            </div> */}
+              <div className="backdrop-img"></div>
               <div className="opacity-layer"></div>
               <ContentWrapper>
                 <div className="content">
@@ -58,11 +55,18 @@ const DetailsBanner = ({ video, loading, crew }) => {
                         }}
                       >
                         <PlayIcon />
-                        <span className="text">Watch Trailer</span>
+                        <span className="text">Watch Preview</span>
                       </div>
                     </div>
 
-                    <div className="overview">
+                    <StarRatings
+                      starRatedColor="#ffa900"
+                      rating={1}
+                      starDimension="30px"
+                      starSpacing="0px"
+                    />
+
+                    <div style={{ marginTop: "18px" }} className="overview">
                       <div className="heading">Overview</div>
                       <div className="description">{video?.courseName}</div>
                     </div>

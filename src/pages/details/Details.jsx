@@ -25,7 +25,8 @@ const Details = () => {
 
   return (
     <div>
-      {<DetailsBanner video={detailedCourse?.[0]} loading={harshLoading} />}
+      <DetailsBanner video={detailedCourse?.[0]} loading={harshLoading} />
+      <Cast data={detailedCourse?.[0]?.postedBy} loading={harshLoading} />
     </div>
   );
 };
