@@ -26,6 +26,7 @@
         "react-select": "^5.7.0",
         "react-star-ratings": "^2.3.0",
         "sass": "^1.57.1",
+        "styled-components": "^5.3.11",
         "swiper": "^9.3.2"
     },
     "devDependencies": {

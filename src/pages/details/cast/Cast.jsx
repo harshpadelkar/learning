@@ -32,14 +32,7 @@ const Cast = ({ data, loading }) => {
             </div>
           </div>
         ) : (
-          <div className="castSkeleton">
-            {skeleton()}
-            {skeleton()}
-            {skeleton()}
-            {skeleton()}
-            {skeleton()}
-            {skeleton()}
-          </div>
+          <div className="castSkeleton">{skeleton()}</div>
         )}
       </ContentWrapper>
     </div>

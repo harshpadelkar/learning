@@ -7,6 +7,7 @@ import ContentWrapper from "../contentWrapper/ContentWrapper";
 import Img from "../lazyLoadImage/Img";
 
 import "./style.scss";
+import StarRatings from "react-star-ratings";
 
 const Carousel = ({ data, loading }) => {
   const navigate = useNavigate();
@@ -39,7 +40,43 @@ const Carousel = ({ data, loading }) => {
                     <Img src={url} />
                   </div>
                   <div className="videoTitle">{course?.courseName}</div>
-                  <div className="videoName">{course?.postedBy?.userName}</div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div>
+                      <div className="videoName">
+                        {course?.postedBy?.userName}
+                      </div>
+                      <StarRatings
+                        starRatedColor="#ffa900"
+                        rating={1}
+                        starDimension="20px"
+                        starSpacing="0px"
+                      />
+                    </div>
+
+                    <div>
+                      <button
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "15px",
+                          display: "inline-block",
+                          padding: "6px 16px",
+                          fontWeight: "700",
+                          transition: "all 300ms linear",
+                          whiteSpace: " nowrap",
+                          marginRight: "10px",
+                        }}
+                      >
+                        Buy
+                      </button>
+                    </div>
+                  </div>
                 </div>
               );
             })}

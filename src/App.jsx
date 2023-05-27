@@ -12,20 +12,38 @@ import Details from "./pages/details/Details";
 import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
+import { courses } from "./query";
+import { client } from "./lib/client";
+import { setData, setError, setLoading } from "./store/coursesSlice";
 
 function App() {
   const dispatch = useDispatch();
   const { url } = useSelector((state) => state.home);
-  console.log(url);
+  const { data } = useSelector((state) => state.courses);
+  // console.log(url);
 
   useEffect(() => {
     fetchApiConfig();
     genresCall();
+    harshFetchApiConfig();
   }, []);
+
+  const harshFetchApiConfig = () => {
+    dispatch(setLoading("loading..."));
+    dispatch(setData(null));
+    dispatch(setError(null));
+
+    client.fetch(courses).then((res) => {
+      const resData = res;
+
+      dispatch(setData(resData));
+      dispatch(setLoading(false));
+    });
+  };
 
   const fetchApiConfig = () => {
     fetchDataFromApi("/configuration").then((res) => {
-      console.log(res);
+      // console.log(res);
 
       const url = {
         backdrop: res.images.secure_base_url + "original",
@@ -47,7 +65,7 @@ function App() {
     });
 
     const data = await Promise.all(promises);
-    console.log(data);
+    // console.log(data);
     data.map(({ genres }) => {
       return genres.map((item) => (allGenres[item.id] = item));
     });

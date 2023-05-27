@@ -53,9 +53,6 @@
         width: 100%;
         display: block;
         border-radius: 12px;
-        @include md {
-          max-width: 350px;
-        }
       }
     }
     .right {
@@ -179,20 +176,6 @@
     }
   }
 
-  //   .skItem {
-  //     width: 150px;
-  //     flex-shrink: 0;
-  //     @include md {
-  //       width: 25%;
-  //     }
-  //     .thumb {
-  //       width: 100%;
-  //       aspect-ratio: 16 / 9;
-  //       border-radius: 12px;
-  //       margin-bottom: 10px;
-  //     }
-  //   }
-
   .detailsBannerSkeleton {
     display: flex;
     position: relative;
@@ -214,7 +197,7 @@
       border-radius: 12px;
       aspect-ratio: 1/1.5;
       @include md {
-        max-width: 350px;
+        max-width: 400px;
       }
     }
     .right {

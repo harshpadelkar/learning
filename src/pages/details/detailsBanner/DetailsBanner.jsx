@@ -12,8 +12,13 @@ import Img from "../../../components/lazyLoadImage/Img.jsx";
 import PosterFallback from "../../../assets/no-poster.png";
 import { PlayIcon } from "../Playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
+import { useSelector } from "react-redux";
 
 const DetailsBanner = ({ video, loading, crew }) => {
+  const { data } = useSelector((state) => state.courses);
+
+  console.log(data);
+
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState(null);
 
@@ -28,12 +33,51 @@ const DetailsBanner = ({ video, loading, crew }) => {
               <ContentWrapper>
                 <div className="content">
                   <div className="left">
-                    {
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        setShow(true);
+                        setVideoId(video?.video?.asset);
+                      }}
+                    >
                       <Img
                         className="posterImg"
                         src={video?.courseImage?.asset?.url}
                       />
-                    }
+                    </div>
+
+                    <div
+                      style={{ display: "flex", gap: "10px", margin: "10px" }}
+                    >
+                      <button
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "15px",
+                          display: "inline-block",
+                          width: "100%",
+                          padding: "16px 0",
+                          fontWeight: "700",
+                          transition: "all 300ms linear",
+                          whiteSpace: " nowrap",
+                        }}
+                      >
+                        Entroll Now
+                      </button>
+                      <button
+                        style={{
+                          cursor: "pointer",
+                          width: "100%",
+                          fontSize: "15px",
+                          display: "inline-block",
+                          padding: "6px 16px",
+                          fontWeight: "700",
+                          transition: "all 300ms linear",
+                          whiteSpace: " nowrap",
+                        }}
+                      >
+                        Add to wishlist
+                      </button>
+                    </div>
                   </div>
                   <div className="right">
                     <div className="title">
@@ -46,7 +90,7 @@ const DetailsBanner = ({ video, loading, crew }) => {
                     <Genres data={video?.topic} />
 
                     <div className="row">
-                      {/* <CircleRating rating={data.vote_average.toFixed(1)} /> */}
+                      <CircleRating rating={4.9} />
                       <div
                         className="playbtn"
                         onClick={() => {
@@ -58,13 +102,6 @@ const DetailsBanner = ({ video, loading, crew }) => {
                         <span className="text">Watch Preview</span>
                       </div>
                     </div>
-
-                    <StarRatings
-                      starRatedColor="#ffa900"
-                      rating={1}
-                      starDimension="30px"
-                      starSpacing="0px"
-                    />
 
                     <div style={{ marginTop: "18px" }} className="overview">
                       <div className="heading">Overview</div>
