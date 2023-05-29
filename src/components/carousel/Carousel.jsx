@@ -28,8 +28,7 @@ const Carousel = ({ data, loading }) => {
         {!loading ? (
           <div className="videos">
             {data?.map((course) => {
-              const { url } = course?.courseImage?.asset;
-              console.log(url);
+              const url = course?.image;
               return (
                 <div
                   key={course?._id}
@@ -49,9 +48,7 @@ const Carousel = ({ data, loading }) => {
                     }}
                   >
                     <div>
-                      <div className="videoName">
-                        {course?.postedBy?.userName}
-                      </div>
+                      <div className="videoName">{course?.authorName}</div>
                       <StarRatings
                         starRatedColor="#ffa900"
                         rating={1}

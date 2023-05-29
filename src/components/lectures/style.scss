@@ -1,14 +1,24 @@
 .course-content {
-  border-top: 1px solid #00ffb9;
-  border-bottom: 1px solid #00ffb9;
+  // border-top: 1px solid #00ffb9;
+  // border-bottom: 1px solid #00ffb9;
 
   .course-content-list {
     li {
-      color: #fff;
+      color: #00ffb9;
       list-style: none;
-      padding: 12px 18px;
-      font-weight: 800;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-size: 15px;
+      span {
+        display: inline-block;
+        color: #00ffb9;
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 1px;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
     }
   }
 }

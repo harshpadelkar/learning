@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import Carousel from "../../../components/carousel/Carousel";
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import SwitchTabs from "../../../components/switchTabs/SwitchTabs";
-import { courses } from "../../../query";
-import { fetchDataFromHarshApi } from "../../../utils Nakali/harshApi";
 
-import useHarsh from "../../../hooks/useHarsh";
 import { useSelector } from "react-redux";
+import useHarsh from "../../../hooks/useHarsh";
+import { coursesHomePage } from "../../../query";
 
 const Trending = () => {
-  const { data: harshData, loading: harshLoading } = useHarsh(courses);
-  const data = useSelector((state) => state.courses.data);
-  const loading = useSelector((state) => state.courses.loading);
+  // const data = useSelector((state) => state.courses.data);
+  // const loading = useSelector((state) => state.courses.loading);
+
+  const { data, loading } = useHarsh(coursesHomePage);
 
   return (
     <div className="carouselSection">
@@ -20,7 +20,7 @@ const Trending = () => {
         <span className="carouselTitle">Recent Courses</span>
         {/* <SwitchTabs data={["Day", "Week"]} onTabChange={onTabChange} /> */}
       </ContentWrapper>
-      <Carousel data={data} loading={loading} />
+      <Carousel data={data && data} loading={loading && loading} />
     </div>
   );
 };

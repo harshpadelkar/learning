@@ -1,24 +1,16 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
-import StarRatings from "react-star-ratings";
 
 import "./style.scss";
 
 import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
-import useFetch from "../../../hooks/useFetch";
 import Genres from "../../../components/genres/Genres";
 import CircleRating from "../../../components/circleRating/CircleRating";
 import Img from "../../../components/lazyLoadImage/Img.jsx";
-import PosterFallback from "../../../assets/no-poster.png";
 import { PlayIcon } from "../Playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
-import { useSelector } from "react-redux";
 
-const DetailsBanner = ({ video, loading, crew }) => {
-  const { data } = useSelector((state) => state.courses);
-
-  console.log(data);
-
+const DetailsBanner = ({ video, loading }) => {
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState(null);
 
@@ -37,13 +29,10 @@ const DetailsBanner = ({ video, loading, crew }) => {
                       style={{ cursor: "pointer" }}
                       onClick={() => {
                         setShow(true);
-                        setVideoId(video?.video?.asset);
+                        setVideoId(video?.videoUrl);
                       }}
                     >
-                      <Img
-                        className="posterImg"
-                        src={video?.courseImage?.asset?.url}
-                      />
+                      <Img className="posterImg" src={video?.image} />
                     </div>
 
                     <div
@@ -95,7 +84,7 @@ const DetailsBanner = ({ video, loading, crew }) => {
                         className="playbtn"
                         onClick={() => {
                           setShow(true);
-                          setVideoId(video?.video?.asset);
+                          setVideoId(video?.videoUrl);
                         }}
                       >
                         <PlayIcon />
@@ -138,7 +127,7 @@ const DetailsBanner = ({ video, loading, crew }) => {
                 <VideoPopup
                   show={show}
                   setShow={setShow}
-                  videoId={videoId?.url}
+                  videoId={videoId}
                   setVideoId={setVideoId}
                 />
               </ContentWrapper>

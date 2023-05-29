@@ -8,19 +8,20 @@ export const courseSlice = createSlice({
     error: null,
   },
   reducers: {
-    setData: (state, action) => {
+    setCoursesData: (state, action) => {
       state.data = action.payload;
     },
-    setLoading: (state, action) => {
+    setCoursesLoading: (state, action) => {
       state.loading = action.payload;
     },
-    setError: (state, action) => {
+    setCoursesError: (state, action) => {
       state.error = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setData, setLoading, setError } = courseSlice.actions;
+export const { setCoursesData, setCoursesLoading, setCoursesError } =
+  courseSlice.actions;
 
 export default courseSlice.reducer;

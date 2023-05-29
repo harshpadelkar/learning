@@ -12,28 +12,50 @@ import Details from "./pages/details/Details";
 import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
-import { courses } from "./query";
+import { courses, coursesHomePage } from "./query";
 import { client } from "./lib/client";
-import { setData, setError, setLoading } from "./store/coursesSlice";
+import {
+  setCoursesData,
+  setCoursesLoading,
+  setCoursesError,
+} from "./store/coursesSlice";
+import {
+  setCategoriesData,
+  setCategoriesLoading,
+  setCategoriesError,
+} from "./store/categoriesSlice";
 
 function App() {
   const dispatch = useDispatch();
-  const { url } = useSelector((state) => state.home);
   const { data } = useSelector((state) => state.courses);
-  // console.log(url);
+  const { categoriesData } = useSelector((state) => state.categories);
 
   useEffect(() => {
     fetchApiConfig();
     genresCall();
-    harshFetchApiConfig();
+    // fetchData(
+    //   coursesHomePage,
+    //   setCoursesData,
+    //   setCoursesLoading,
+    //   setCoursesError
+    // );
+    // fetchData(
+    //   allLectures,
+    //   setCategoriesData,
+    //   setCategoriesLoading,
+    //   setCategoriesError
+    // );
   }, []);
 
-  const harshFetchApiConfig = () => {
+  console.log(data);
+  // console.log(categoriesData);
+
+  const fetchData = (query, setData, setLoading, setError) => {
     dispatch(setLoading("loading..."));
     dispatch(setData(null));
     dispatch(setError(null));
 
-    client.fetch(courses).then((res) => {
+    client.fetch(query).then((res) => {
       const resData = res;
 
       dispatch(setData(resData));
@@ -79,8 +101,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/:mediaType/:id" element={<Details />} />
-        <Route path="/search/:query" element={<SearchResult />} />
-        <Route path="/explore/:mediaType" element={<Explore />} />
+        <Route path="/search/test" element={<SearchResult />} />
+        {/* <Route path="/explore/:mediaType" element={<Explore />} /> */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

@@ -21,13 +21,13 @@ const Cast = ({ data, loading }) => {
     <div className="castSection">
       <ContentWrapper>
         <div className="sectionHeading">Instructor</div>
-        {!loading ? (
+        {!loading  ? (
           <div className="listItems">
             <div key={data?._id} className="listItem">
               <div className="profileImg">
-                <Img src={data?.image} />
+                <Img src={data?.authorImage} />
               </div>
-              <div className="name">{data?.userName}</div>
+              <div className="name">{data?.authorName}</div>
               <div className="character">Software Developer</div>
             </div>
           </div>

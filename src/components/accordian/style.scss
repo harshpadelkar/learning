@@ -1,0 +1,28 @@
+@import "../../mixins.scss";
+
+.accordianHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
+  background: #020c1b;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  border-bottom: 1px solid #00ffb9;
+
+  @include sm {
+    padding: 20px;
+  }
+}
+
+.sectionHeading {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 25px;
+}

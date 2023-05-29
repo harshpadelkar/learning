@@ -18,6 +18,7 @@ const VideoPopup = ({ show, setShow, videoId, setVideoId }) => {
         <ReactPlayer
           url={videoId}
           controls
+          onEnded={hidePopup}
           width="100%"
           height="100%"
           playing={true}

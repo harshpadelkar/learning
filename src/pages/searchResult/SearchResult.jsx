@@ -1,95 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./style.scss";
 
-import { fetchDataFromApi } from "../../utils/api";
 import ContentWrapper from "../../components/contentWrapper/ContentWrapper";
-import MovieCard from "../../components/movieCard/MovieCard";
-import Spinner from "../../components/spinner/Spinner";
-import noResults from "../../assets/no-results.png";
+import SearchResultVideoCard from "./SearchResultVideoCard";
+import useHarsh from "../../hooks/useHarsh";
+import { coursesHomePage } from "../../query";
 
 const SearchResult = () => {
-    const [data, setData] = useState(null);
-    const [pageNum, setPageNum] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const { query } = useParams();
+  const { query } = useParams();
 
-    const fetchInitialData = () => {
-        setLoading(true);
-        fetchDataFromApi(`/search/multi?query=${query}&page=${pageNum}`).then(
-            (res) => {
-                setData(res);
-                setPageNum((prev) => prev + 1);
-                setLoading(false);
-            }
-        );
-    };
+  const { data, loading } = useHarsh(coursesHomePage);
 
-    const fetchNextPageData = () => {
-        fetchDataFromApi(`/search/multi?query=${query}&page=${pageNum}`).then(
-            (res) => {
-                if (data?.results) {
-                    setData({
-                        ...data,
-                        results: [...data?.results, ...res.results],
-                    });
-                } else {
-                    setData(res);
-                }
-                setPageNum((prev) => prev + 1);
-            }
-        );
-    };
+  const [pageNum, setPageNum] = useState(1);
 
-    useEffect(() => {
-        setPageNum(1);
-        fetchInitialData();
-    }, [query]);
-
-    return (
-        <div className="searchResultsPage">
-            {loading && <Spinner initial={true} />}
-            {!loading && (
-                <ContentWrapper>
-                    {data?.results?.length > 0 ? (
-                        <>
-                            <div className="pageTitle">
-                                {`Search ${
-                                    data?.total_results > 1
-                                        ? "results"
-                                        : "result"
-                                } of '${query}'`}
-                            </div>
-                            <InfiniteScroll
-                                className="content"
-                                dataLength={data?.results?.length || []}
-                                next={fetchNextPageData}
-                                hasMore={pageNum <= data?.total_pages}
-                                loader={<Spinner />}
-                            >
-                                {data?.results.map((item, index) => {
-                                    if (item.media_type === "person") return;
-                                    return (
-                                        <MovieCard
-                                            key={index}
-                                            data={item}
-                                            fromSearch={true}
-                                        />
-                                    );
-                                })}
-                            </InfiniteScroll>
-                        </>
-                    ) : (
-                        <span className="resultNotFound">
-                            Sorry, Results not found!
-                        </span>
-                    )}
-                </ContentWrapper>
-            )}
+  return (
+    <div className="flex flex-row h-[calc(100%-56px)]">
+      <div className="grow w-[calc(100%-240px)] h-full overflow-y-auto bg-black">
+        <div className="grid grid-cols-1 gap-2 p-5">
+          {data?.map((item) => (
+            <SearchResultVideoCard key={item?._id} video={item && item} />
+          ))}
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default SearchResult;
