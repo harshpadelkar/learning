@@ -13,17 +13,9 @@ import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
 import { courses, coursesHomePage } from "./query";
-import { client } from "./lib/client";
-import {
-  setCoursesData,
-  setCoursesLoading,
-  setCoursesError,
-} from "./store/coursesSlice";
-import {
-  setCategoriesData,
-  setCategoriesLoading,
-  setCategoriesError,
-} from "./store/categoriesSlice";
+import { client, createNewUser } from "./lib/client";
+import { firebaseAuth } from "./config/firebase.config";
+import { setUser } from "./store/userSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,24 +23,20 @@ function App() {
   const { categoriesData } = useSelector((state) => state.categories);
 
   useEffect(() => {
+    firebaseAuth.onAuthStateChanged((result) => {
+      if (result) {
+        createNewUser(result?.providerData[0]).then(() => {
+          console.log("New user Created");
+          dispatch(setUser(result?.providerData[0]));
+        });
+      }
+    });
+  });
+
+  useEffect(() => {
     fetchApiConfig();
     genresCall();
-    // fetchData(
-    //   coursesHomePage,
-    //   setCoursesData,
-    //   setCoursesLoading,
-    //   setCoursesError
-    // );
-    // fetchData(
-    //   allLectures,
-    //   setCategoriesData,
-    //   setCategoriesLoading,
-    //   setCategoriesError
-    // );
   }, []);
-
-  console.log(data);
-  // console.log(categoriesData);
 
   const fetchData = (query, setData, setLoading, setError) => {
     dispatch(setLoading("loading..."));

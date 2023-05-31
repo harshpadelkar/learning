@@ -1,23 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineSearch, HiOutlineLogout } from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
+import { BsFillCaretDownFill } from "react-icons/bs";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import "./style.scss";
+import userPlaceholder from "../../assets//user-placeholder.svg";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
+import { firebaseAuth } from "../../config/firebase.config";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserNull } from "../../store/userSlice";
 
 const Header = () => {
+  const { user } = useSelector((state) => state.user);
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [query, setQuery] = useState("");
+  const [showMainMenu, setShowMenMenu] = useState(false);
   const [showSearch, setShowSearch] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
+  const provider = new GoogleAuthProvider();
+  const dispatch = useDispatch();
+
+  const signInWithGmail = async () => {
+    await signInWithPopup(firebaseAuth, provider).then((result) => {
+      createNewUser(result?.providerData[0]).then(() => {
+        console.log("New user Created");
+      });
+    });
+  };
+
+  const logout = async () => {
+    await firebaseAuth.signOut().then(() => {
+      dispatch(setUserNull());
+      toggleMenMenu();
+      navigate("/", { replace: true });
+    });
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,6 +88,10 @@ const Header = () => {
     setShowSearch(true);
   };
 
+  const toggleMenMenu = () => {
+    setShowMenMenu((state) => !state);
+  };
+
   const openMobileMenu = () => {
     setMobileMenu(true);
     setShowSearch(false);
@@ -77,24 +112,148 @@ const Header = () => {
         <div className="logo" onClick={() => navigate("/")}>
           <img src={logo} alt="" />
         </div>
-        <ul className="menuItems">
-          <li className="menuItem" onClick={() => navigationHandler("movie")}>
-            Movies
-          </li>
-          <li className="menuItem" onClick={() => navigationHandler("tv")}>
-            TV Shows
-          </li>
-          <li className="menuItem">
-            <HiOutlineSearch onClick={openSearch} />
-          </li>
-        </ul>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ul className="menuItems">
+            <li className="menuItem">
+              <HiOutlineSearch onClick={openSearch} />
+            </li>
+          </ul>
 
-        <div className="mobileMenuItems">
-          <HiOutlineSearch onClick={openSearch} />
-          {mobileMenu ? (
-            <VscChromeClose onClick={() => setMobileMenu(false)} />
+          <div className="mobileMenuItems">
+            <HiOutlineSearch
+              style={{ height: "25px", width: "25px" }}
+              onClick={openSearch}
+            />
+          </div>
+
+          {!user ? (
+            <li
+              style={{
+                position: "relative",
+                listStyle: "none",
+              }}
+              className="menuItem"
+              onClick={signInWithGmail}
+            >
+              <img
+                style={{
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                  background: "white",
+                }}
+                src={userPlaceholder}
+                alt="user placeholder"
+              />
+            </li>
           ) : (
-            <SlMenu onClick={openMobileMenu} />
+            <li
+              style={{
+                position: "relative",
+                listStyle: "none",
+              }}
+              className="menuItem"
+            >
+              <img
+                src={user?.photoURL}
+                style={{
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
+                onClick={toggleMenMenu}
+                referrerPolicy="no-referrer"
+              />
+
+              <BsFillCaretDownFill
+                onClick={toggleMenMenu}
+                style={{
+                  color: "white",
+                  fontSize: "12px",
+                  cursor: "pointer",
+                }}
+              />
+
+              {showMainMenu && (
+                <div
+                  onMouseLeave={toggleMenMenu}
+                  style={{
+                    position: "absolute",
+                    right: "0",
+                    top: "12",
+                    borderRadius: "10px",
+                    width: "200px",
+                    padding: "14px 12px",
+                    background: "#173d77",
+                    display: "flex",
+                    alignItems: "start",
+                    justifyContent: "center",
+                    gap: "12px",
+                    flexDirection: "column",
+                    color: "white",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  <p>
+                    <div
+                      style={{
+                        lineHeight: "1.3",
+                        fontWeight: "400",
+                        textTransform: "lowercase",
+                      }}
+                    >
+                      <span style={{ textTransform: "uppercase" }}>S</span>igned
+                      in as
+                    </div>
+                    <div>{user?.displayName}</div>
+                  </p>
+
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "1px",
+                      background: "#ffffff38",
+                    }}
+                  ></div>
+
+                  <p style={{ cursor: "pointer" }}>My Courses</p>
+
+                  <p style={{ cursor: "pointer" }}>Your learnings</p>
+
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "1px",
+                      background: "#ffffff38",
+                    }}
+                  ></div>
+
+                  <p
+                    onClick={logout}
+                    style={{
+                      textTransform: "capitalize",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span>Logout</span>
+                    <HiOutlineLogout style={{ margin: "0 auto" }} />
+                  </p>
+                </div>
+              )}
+            </li>
           )}
         </div>
       </ContentWrapper>
