@@ -52,6 +52,8 @@ export const coursesHomePage = `*[_type == "course"] | order(_createdAt desc){
   _id,
  courseName,
  "image": courseImage.asset->url,
+ "searchImage": searchImage.asset->url,
+ description,
  "authorName": postedBy->.userName,
  "authorImage": postedBy->.image,
  "videoUrl": video.asset->url,

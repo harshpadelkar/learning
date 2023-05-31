@@ -13,6 +13,7 @@ const Header = () => {
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState("");
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const Header = () => {
       navigate(`/search/${query}`);
       setTimeout(() => {
         setShowSearch(false);
-      }, 1000);
+      });
     }
   };
 

@@ -1,85 +1,107 @@
 @import "../../mixins.scss";
-.movieCard {
-    width: calc(50% - 5px);
-    margin-bottom: 25px;
-    cursor: pointer;
-    flex-shrink: 0;
-    @include md {
-        width: calc(25% - 15px);
-    }
+
+.container {
+  color: white;
+  padding-bottom: 1rem;
+  @include md {
+    padding-bottom: 1.6rem;
+  }
+  .innerContainer {
+    display: flex;
+    gap: 14px;
     @include lg {
-        width: calc(20% - 16px);
+      gap: 16px;
     }
-    .posterBlock {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 1 / 1.5;
-        background-size: cover;
-        background-position: center;
-        margin-bottom: 30px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        padding: 10px;
-        transition: all ease 0.5s;
-        .lazy-load-image-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: center;
-            }
+    .wrapper {
+      flex-grow: 2;
+      .image {
+        border-radius: 10px;
+        @include gg {
+          object-fit: contain;
+          object-position: top;
+          width: 96px;
+          height: 96px;
+          border-radius: 5px;
         }
-        .circleRating {
-            width: 40px;
-            height: 40px;
-            position: relative;
-            top: 30px;
-            background-color: white;
-            flex-shrink: 0;
-            @include md {
-                width: 50px;
-                height: 50px;
-            }
-        }
-        .genres {
-            display: none;
-            position: relative;
-            @include md {
-                display: flex;
-                flex-flow: wrap;
-                justify-content: flex-end;
-            }
-        }
+      }
     }
-    .textBlock {
-        color: white;
+
+    .searchContent {
+      flex-grow: 2;
+      .contentContainer {
         display: flex;
         flex-direction: column;
-        .title {
+        gap: 2px;
+        @include md {
+          gap: 5px;
+        }
+        .heading {
+          color: white;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 1.1;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          @include xsm {
             font-size: 16px;
-            margin-bottom: 10px;
+          }
+          @include md {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.3;
+          }
+          @include xl {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.4;
+          }
+        }
+
+        .description {
+          font-weight: 300;
+          color: #a8a8a8;
+          line-height: 1.3;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          @include gg {
+            font-size: 12px;
+          }
+          @include op {
+            font-size: 10px;
+            line-height: 1.2;
+          }
+        }
+
+        .authorName {
+          color: #c6c6c6;
+          font-size: 11px;
+          line-height: 20px;
+          @include md {
+            font-size: 16px;
             line-height: 24px;
-            @include ellipsis(1);
-            @include md {
-                font-size: 20px;
+          }
+        }
+
+        .starRatings {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          @include md {
+            gap: 10px;
+          }
+          p {
+            font-size: 11px;
+            font-weight: 100;
+            @include sm {
+              font-size: 12px;
             }
+          }
         }
-        .date {
-            font-size: 14px;
-            opacity: 0.5;
-        }
+      }
     }
-    &:hover {
-        .posterBlock {
-            opacity: 0.5;
-        }
-    }
+  }
 }

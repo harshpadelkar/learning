@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
+import { FcLike } from "react-icons/fc";
 
 import "./style.scss";
 
@@ -35,35 +36,12 @@ const DetailsBanner = ({ video, loading }) => {
                       <Img className="posterImg" src={video?.image} />
                     </div>
 
-                    <div
-                      style={{ display: "flex", gap: "10px", margin: "10px" }}
-                    >
-                      <button
-                        style={{
-                          cursor: "pointer",
-                          fontSize: "15px",
-                          display: "inline-block",
-                          width: "100%",
-                          padding: "16px 0",
-                          fontWeight: "700",
-                          transition: "all 300ms linear",
-                          whiteSpace: " nowrap",
-                        }}
-                      >
+                    <div className=" w-full flex gap-2 py-3 px-2">
+                      <button className="cursor-pointer w-full  text-base py-4 font-bold bg-green-600 ">
                         Entroll Now
                       </button>
-                      <button
-                        style={{
-                          cursor: "pointer",
-                          width: "100%",
-                          fontSize: "15px",
-                          display: "inline-block",
-                          padding: "6px 16px",
-                          fontWeight: "700",
-                          transition: "all 300ms linear",
-                          whiteSpace: " nowrap",
-                        }}
-                      >
+                      <button className="cursor-pointer w-full text-base py-4 font-bold bg-green-600 flex gap-2 items-center justify-center">
+                        <FcLike />
                         Add to wishlist
                       </button>
                     </div>
