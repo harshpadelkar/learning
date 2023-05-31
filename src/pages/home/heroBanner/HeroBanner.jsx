@@ -33,17 +33,8 @@ const HeroBanner = () => {
         <div className="heroBannerContent">
           <span className="title">Welcome.</span>
           <span className="subTitle">
-            Millions of movies, TV shows and people to discover. Explore now.
+            To The Ultimate Learning App Designed to Empower Your Knowledge!
           </span>
-          <div className="searchInput">
-            <input
-              type="text"
-              placeholder="Search for a movie or tv show...."
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyUp={searchQueryHandler}
-            />
-            <button>Search</button>
-          </div>
         </div>
       </ContentWrapper>
     </div>

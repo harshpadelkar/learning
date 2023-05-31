@@ -61,16 +61,16 @@ const Carousel = ({ data, loading }) => {
                       <button
                         style={{
                           cursor: "pointer",
-                          fontSize: "15px",
+                          fontSize: "12px",
                           display: "inline-block",
-                          padding: "6px 16px",
-                          fontWeight: "700",
+                          padding: "6px 12px",
+                          fontWeight: "600",
                           transition: "all 300ms linear",
                           whiteSpace: " nowrap",
                           marginRight: "10px",
                         }}
                       >
-                        Buy
+                        Entroll
                       </button>
                     </div>
                   </div>
