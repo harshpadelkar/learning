@@ -6,20 +6,20 @@ import SwitchTabs from "../../../components/switchTabs/SwitchTabs";
 
 import { useSelector } from "react-redux";
 import useHarsh from "../../../hooks/useHarsh";
-import { coursesHomePage } from "../../../query";
+import { categoryFetch, coursesHomePage } from "../../../query";
 
-const Trending = () => {
+const Development = () => {
   // const data = useSelector((state) => state.courses.data);
   // const loading = useSelector((state) => state.courses.loading);
 
-  const { data, loading } = useHarsh(coursesHomePage);
+  // const { data, loading } = useHarsh(categoryFetch("development"));
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="carouselSection">
       <ContentWrapper>
-        <span className="carouselTitle">Recent Courses</span>
+        <span className="carouselTitle">Development</span>
         {/* <SwitchTabs data={["Day", "Week"]} onTabChange={onTabChange} /> */}
       </ContentWrapper>
       <Carousel data={data && data} loading={loading && loading} />
@@ -27,4 +27,4 @@ const Trending = () => {
   );
 };
 
-export default Trending;
+export default Development;

@@ -5,7 +5,7 @@ import format from "date-fns/format";
 
 import HeroBanner from "./heroBanner/HeroBanner";
 import Trending from "./trending/Trending";
-import Popular from "./popular/Popular";
+import Developement from "./developement/Developement";
 import TopRated from "./topRated/TopRated";
 
 const Home = () => {
@@ -13,8 +13,8 @@ const Home = () => {
     <div className="homePage">
       <HeroBanner />
       <Trending />
-      {/* <Popular />
-      <TopRated /> */}
+      {/* <Developement /> */}
+      {/* <TopRated /> */}
     </div>
   );
 };

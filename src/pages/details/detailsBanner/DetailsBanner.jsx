@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { FcLike } from "react-icons/fc";
+import { MdFavorite } from "react-icons/md";
 
 import "./style.scss";
 
@@ -10,10 +10,26 @@ import CircleRating from "../../../components/circleRating/CircleRating";
 import Img from "../../../components/lazyLoadImage/Img.jsx";
 import { PlayIcon } from "../Playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
+import { updateWishlistedCourse } from "../../../lib/client";
+import { useSelector } from "react-redux";
 
 const DetailsBanner = ({ video, loading }) => {
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState(null);
+
+  const { user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+  })
+
+  const likeCourse = async (course, userID) => {
+    const data = {
+      userId: userID,
+      courseId: course,
+    };
+
+    await updateWishlistedCourse(data);
+  };
 
   return (
     <div className="detailsBanner">
@@ -40,8 +56,11 @@ const DetailsBanner = ({ video, loading }) => {
                       <button className="cursor-pointer w-full  text-base py-4 font-bold bg-green-600 ">
                         Entroll Now
                       </button>
-                      <button className="cursor-pointer w-full text-base py-4 font-bold bg-green-600 flex gap-2 items-center justify-center">
-                        <FcLike />
+                      <button
+                        onClick={() => likeCourse(video?._id, user?.uid)}
+                        className="cursor-pointer w-full text-base py-4 font-bold bg-green-600 flex gap-2 items-center justify-center"
+                      >
+                        <MdFavorite style={{ color: "white" }} />
                         Add to wishlist
                       </button>
                     </div>

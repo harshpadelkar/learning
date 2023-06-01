@@ -35,11 +35,15 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const signInWithGmail = async () => {
-    await signInWithPopup(firebaseAuth, provider).then((result) => {
-      createNewUser(result?.providerData[0]).then(() => {
-        console.log("New user Created");
+    try {
+      await signInWithPopup(firebaseAuth, provider).then((result) => {
+        createNewUser(result?.providerData[0]).then(() => {
+          console.log("New user Created");
+        });
       });
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const logout = async () => {
@@ -204,7 +208,7 @@ const Header = () => {
                     textTransform: "capitalize",
                   }}
                 >
-                  <p>
+                  <div>
                     <div
                       style={{
                         lineHeight: "1.3",
@@ -216,7 +220,7 @@ const Header = () => {
                       in as
                     </div>
                     <div>{user?.displayName}</div>
-                  </p>
+                  </div>
 
                   <div
                     style={{

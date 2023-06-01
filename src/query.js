@@ -75,3 +75,37 @@ export const coursesHomePage = `*[_type == "course"] | order(_createdAt desc){
   active,
   publishedAt,
 }`;
+
+export const categoryFetch = (endpoint) => {
+  return `*[_type == "course" && topic == "${endpoint}"] | order(_createdAt desc){
+    _id,
+   courseName,
+   "image": courseImage.asset->url,
+   "searchImage": searchImage.asset->url,
+   description,
+   "authorName": postedBy->.userName,
+   "authorImage": postedBy->.image,
+   "videoUrl": video.asset->url,
+   "videoDetails": video.asset->,
+   comments[]{
+    comment,
+    _key,
+    "userName": postedBy->userName,
+    "image": postedBy->image
+    },
+    "lectures": post[]->{
+      _id,
+      _key,
+      "title": caption,
+      "video": video.asset->url,
+     },
+    likes,
+    topic,
+    active,
+    publishedAt,
+  }`;
+};
+
+export const getUsersLearnings = (userId) => {
+  return `*[_type == "user" && _id == "${userId}"]`;
+};

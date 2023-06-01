@@ -1,5 +1,6 @@
 import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
+// import { uuid } from "uuidv4";
 
 const SANITY_TOKEN = import.meta.env.VITE_PUBLIC_SANITY_TOKEN;
 
@@ -28,4 +29,39 @@ export const createNewUser = async (data) => {
   await client.createIfNotExists(_doc).then((res) => {
     return res;
   });
+};
+
+export const updateWishlistedCourse = async (data) => {
+  const { userId, courseId } = data;
+
+  console.log(userId, courseId);
+
+  await client
+    .patch(userId)
+    .setIfMissing({ learnings: [] })
+    .insert("after", "learnings[-1]", [
+      {
+        _key: 2121,
+        _ref: courseId,
+      },
+    ])
+    .commit()
+    .then((res) => {
+      return res;
+    });
+};
+
+export const updateUnWishLishtedCourse = async (data) => {
+  const { userId, courseId } = data;
+
+  console.log(userId, courseId);
+
+  await client
+    .patch(userId)
+    .setIfMissing({ learnings: [] })
+    .unset([`likes[_ref=="${userId}"]`])
+    .commit()
+    .then((res) => {
+      return res;
+    });
 };
