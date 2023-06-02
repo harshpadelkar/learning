@@ -12,9 +12,10 @@ const Trending = () => {
   // const data = useSelector((state) => state.courses.data);
   // const loading = useSelector((state) => state.courses.loading);
 
-  const { data, loading } = useHarsh(coursesHomePage);
+  // const { data, loading } = useHarsh(coursesHomePage);
+  
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="carouselSection">

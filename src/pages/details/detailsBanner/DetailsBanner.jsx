@@ -102,7 +102,7 @@ const DetailsBanner = ({ video, loading, setData }) => {
                           fontSize: "15px",
                           fontWeight: "600",
                           background: "#0850bb",
-                          padding: "18px",
+                          padding: "18px 0",
                           border: "none",
                           color: "#ffffff",
                           borderRadius: "10px",
@@ -119,7 +119,7 @@ const DetailsBanner = ({ video, loading, setData }) => {
                             fontSize: "15px",
                             fontWeight: "600",
                             background: "#0850bb",
-                            padding: "18px",
+                            padding: "18px 0",
                             border: "none",
                             color: "#ffffff",
                             borderRadius: "10px",
@@ -132,7 +132,7 @@ const DetailsBanner = ({ video, loading, setData }) => {
                           onClick={() => unlike(video?._id, user?._id)}
                         >
                           <MdFavorite style={{ color: "red" }} />
-                          Add to wishlist
+                          Wishlisted
                         </button>
                       ) : (
                         <button
@@ -141,7 +141,7 @@ const DetailsBanner = ({ video, loading, setData }) => {
                             fontSize: "15px",
                             fontWeight: "600",
                             background: "#0850bb",
-                            padding: "18px",
+                            padding: "18px 0",
                             border: "none",
                             color: "#ffffff",
                             borderRadius: "10px",

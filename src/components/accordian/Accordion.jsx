@@ -18,7 +18,6 @@ const Accordion = ({ items }) => {
       <div className="sectionHeading">Course Content</div>
       <AccordionContainer>
         {items?.map((item, i, lectures) => {
-          console.log(lectures);
           let isActive = active === item?.title;
           return (
             <AccordionContent

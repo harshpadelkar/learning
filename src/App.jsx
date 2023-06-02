@@ -12,15 +12,17 @@ import Details from "./pages/details/Details";
 import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
-import { getUserData } from "./query";
+import { getCarouselData } from "./query";
 import { client, createNewUser } from "./lib/client";
 import { firebaseAuth } from "./config/firebase.config";
 import { setUser } from "./store/userSlice";
+import useHarsh from "./hooks/useHarsh";
 
 function App() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.courses);
   const { categoriesData } = useSelector((state) => state.categories);
+
 
   useEffect(() => {
     firebaseAuth.onAuthStateChanged((result) => {

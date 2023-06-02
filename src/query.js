@@ -139,3 +139,15 @@ export const getCourse = (courseId) => {
     publishedAt,
   }`;
 };
+
+export const getCarouselData = (userId) => {
+  return `*[_type == "courseTest"] | order(_createdAt desc){
+    _id,
+   title,
+   "image": image.asset->url,
+   "video": video.asset->url,
+   "authorName": postedBy->.userName,
+   "ratings": ratings[].feedback
+  }
+   `;
+};
