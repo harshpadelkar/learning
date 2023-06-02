@@ -12,7 +12,7 @@ import Details from "./pages/details/Details";
 import SearchResult from "./pages/searchResult/SearchResult";
 import Explore from "./pages/explore/Explore";
 import PageNotFound from "./pages/404/PageNotFound";
-import { courses, coursesHomePage } from "./query";
+import { getUserData } from "./query";
 import { client, createNewUser } from "./lib/client";
 import { firebaseAuth } from "./config/firebase.config";
 import { setUser } from "./store/userSlice";
@@ -26,7 +26,6 @@ function App() {
     firebaseAuth.onAuthStateChanged((result) => {
       if (result) {
         createNewUser(result?.providerData[0]).then(() => {
-          console.log("New user Created");
           dispatch(setUser(result?.providerData[0]));
         });
       }

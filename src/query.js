@@ -106,6 +106,36 @@ export const categoryFetch = (endpoint) => {
   }`;
 };
 
-export const getUsersLearnings = (userId) => {
+export const getUserData = (userId) => {
   return `*[_type == "user" && _id == "${userId}"]`;
+};
+
+export const getCourse = (courseId) => {
+  return `*[_type == "course" && _id == "${courseId}"] | order(_createdAt desc){
+    _id,
+   courseName,
+   "image": courseImage.asset->url,
+   "searchImage": searchImage.asset->url,
+   description,
+   "authorName": postedBy->.userName,
+   "authorImage": postedBy->.image,
+   "videoUrl": video.asset->url,
+   "videoDetails": video.asset->,
+   comments[]{
+    comment,
+    _key,
+    "userName": postedBy->userName,
+    "image": postedBy->image
+    },
+    "lectures": post[]->{
+      _id,
+      _key,
+      "title": caption,
+      "video": video.asset->url,
+     },
+    likes,
+    topic,
+    active,
+    publishedAt,
+  }`;
 };

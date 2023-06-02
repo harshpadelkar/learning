@@ -10,22 +10,30 @@ import Genres from "../genres/Genres";
 import PosterFallback from "../../assets/no-poster.png";
 import StarRatings from "react-star-ratings";
 
-const MovieCard = ({ data, fromSearch, mediaType }) => {
-  const [starWidth, setStarWidth] = useState(20);
+const CourseCard = ({ data, fromSearch, mediaType, i }) => {
+  const [starWidth, setStarWidth] = useState(22);
   const clientWidth = useRef();
   const { url } = useSelector((state) => state.home);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (clientWidth.current.clientWidth < 560) {
-      setStarWidth(12);
+      setStarWidth(14);
     } else if (clientWidth.current.clientWidth < 859) {
-      setStarWidth(15);
+      setStarWidth(16);
     }
   }, [clientWidth]);
 
   return (
-    <div className="container" ref={clientWidth}>
+    <div
+      style={{
+        borderTop: `${i !== 0 ? "0.1px solid #ffffff4d" : "0"}`,
+        paddingTop: `${i === 0 ? "0" : "2rem"}`,
+      }}
+      onClick={() => navigate(`/${data?.topic}/${data?._id}`)}
+      className="container"
+      ref={clientWidth}
+    >
       <div className="innerContainer">
         <div className="wrapper">
           <Img className="image" src={data?.image} />
@@ -54,4 +62,4 @@ const MovieCard = ({ data, fromSearch, mediaType }) => {
   );
 };
 
-export default MovieCard;
+export default CourseCard;

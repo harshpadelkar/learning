@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { courses, coursesHomePage, getUsersLearnings } from "../../query";
+import { courses, coursesHomePage, getCourse } from "../../query";
 
 import "./style.scss";
 
@@ -15,15 +15,13 @@ const Details = () => {
 
   const { user } = useSelector((state) => state.user);
 
-  const { data, loading } = useHarsh(coursesHomePage);
-
-  const detailedCourse = data?.filter((course) => course._id === id);
+  const { data, loading, setData } = useHarsh(getCourse(id));
 
   return (
     <div>
-      <DetailsBanner video={detailedCourse?.[0]} loading={loading} />
-      <Cast data={detailedCourse?.[0]} loading={loading} />
-      <Accordion items={detailedCourse?.[0]?.lectures} />
+      <DetailsBanner video={data?.[0]} loading={loading} setData={setData} />
+      <Cast data={data?.[0]} loading={loading} />
+      <Accordion items={data?.[0]?.lectures} />
     </div>
   );
 };

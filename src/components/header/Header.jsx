@@ -18,6 +18,7 @@ import {
 import { firebaseAuth } from "../../config/firebase.config";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserNull } from "../../store/userSlice";
+import { createNewUser } from "../../lib/client";
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
@@ -36,9 +37,11 @@ const Header = () => {
 
   const signInWithGmail = async () => {
     try {
-      await signInWithPopup(firebaseAuth, provider).then((result) => {
-        createNewUser(result?.providerData[0]).then(() => {
+      await signInWithRedirect(firebaseAuth, provider).then((result) => {
+        console.log(result);
+        createNewUser(result?.user?.providerData[0]).then(() => {
           console.log("New user Created");
+          dispatch(setUser(result?.providerData[0]));
         });
       });
     } catch (err) {
@@ -167,7 +170,7 @@ const Header = () => {
               className="menuItem"
             >
               <img
-                src={user?.photoURL}
+                src={user?.image}
                 style={{
                   borderRadius: "50%",
                   width: "40px",
@@ -219,7 +222,7 @@ const Header = () => {
                       <span style={{ textTransform: "uppercase" }}>S</span>igned
                       in as
                     </div>
-                    <div>{user?.displayName}</div>
+                    <div>{user?.userName}</div>
                   </div>
 
                   <div

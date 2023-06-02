@@ -37,12 +37,12 @@ export const updateWishlistedCourse = async (data) => {
   console.log(userId, courseId);
 
   await client
-    .patch(userId)
-    .setIfMissing({ learnings: [] })
-    .insert("after", "learnings[-1]", [
+    .patch(courseId)
+    .setIfMissing({ likes: [] })
+    .insert("after", "likes[-1]", [
       {
-        _key: 2121,
-        _ref: courseId,
+        _key: crypto.randomUUID(),
+        _ref: userId,
       },
     ])
     .commit()
@@ -57,8 +57,7 @@ export const updateUnWishLishtedCourse = async (data) => {
   console.log(userId, courseId);
 
   await client
-    .patch(userId)
-    .setIfMissing({ learnings: [] })
+    .patch(courseId)
     .unset([`likes[_ref=="${userId}"]`])
     .commit()
     .then((res) => {

@@ -10,17 +10,24 @@ import CircleRating from "../../../components/circleRating/CircleRating";
 import Img from "../../../components/lazyLoadImage/Img.jsx";
 import { PlayIcon } from "../Playbtn";
 import VideoPopup from "../../../components/videoPopup/VideoPopup";
-import { updateWishlistedCourse } from "../../../lib/client";
+import {
+  updateWishlistedCourse,
+  updateUnWishLishtedCourse,
+  client,
+} from "../../../lib/client";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { getCourse } from "../../../query";
 
-const DetailsBanner = ({ video, loading }) => {
+const DetailsBanner = ({ video, loading, setData }) => {
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState(null);
+  const [alreadyLiked, setAlreadyLiked] = useState(false);
 
   const { user } = useSelector((state) => state.user);
-
-  useEffect(() => {
-  })
+  let alreadyLikedByUser = video?.likes?.filter((like) => {
+    return like._ref === user?._id;
+  });
 
   const likeCourse = async (course, userID) => {
     const data = {
@@ -29,7 +36,35 @@ const DetailsBanner = ({ video, loading }) => {
     };
 
     await updateWishlistedCourse(data);
+
+    client.fetch(getCourse(video?._id)).then((res) => {
+      console.log(res);
+      setData(res);
+    });
   };
+
+  const unlike = async (course, userID) => {
+    if (user) {
+      const data = {
+        userId: userID,
+        courseId: course,
+      };
+
+      await updateUnWishLishtedCourse(data);
+      client.fetch(getCourse(video?._id)).then((res) => {
+        console.log(res);
+        setData(res);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (alreadyLikedByUser?.length > 0) {
+      setAlreadyLiked(true);
+    } else {
+      setAlreadyLiked(false);
+    }
+  }, [alreadyLikedByUser, video]);
 
   return (
     <div className="detailsBanner">
@@ -52,17 +87,76 @@ const DetailsBanner = ({ video, loading }) => {
                       <Img className="posterImg" src={video?.image} />
                     </div>
 
-                    <div className=" w-full flex gap-2 py-3 px-2">
-                      <button className="cursor-pointer w-full  text-base py-4 font-bold bg-green-600 ">
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        gap: "10px",
+                        padding: "20px 0",
+                      }}
+                      className=" w-full flex gap-2 py-3 px-2"
+                    >
+                      <button
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "15px",
+                          fontWeight: "600",
+                          background: "#0850bb",
+                          padding: "18px",
+                          border: "none",
+                          color: "#ffffff",
+                          borderRadius: "10px",
+                          flexGrow: "1",
+                        }}
+                        className="cursor-pointer w-full  text-base py-4 font-bold bg-green-600 "
+                      >
                         Entroll Now
                       </button>
-                      <button
-                        onClick={() => likeCourse(video?._id, user?.uid)}
-                        className="cursor-pointer w-full text-base py-4 font-bold bg-green-600 flex gap-2 items-center justify-center"
-                      >
-                        <MdFavorite style={{ color: "white" }} />
-                        Add to wishlist
-                      </button>
+                      {alreadyLiked ? (
+                        <button
+                          style={{
+                            cursor: "pointer",
+                            fontSize: "15px",
+                            fontWeight: "600",
+                            background: "#0850bb",
+                            padding: "18px",
+                            border: "none",
+                            color: "#ffffff",
+                            borderRadius: "10px",
+                            flexGrow: "1",
+                            display: "flex",
+                            gap: "5px",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          onClick={() => unlike(video?._id, user?._id)}
+                        >
+                          <MdFavorite style={{ color: "red" }} />
+                          Add to wishlist
+                        </button>
+                      ) : (
+                        <button
+                          style={{
+                            cursor: "pointer",
+                            fontSize: "15px",
+                            fontWeight: "600",
+                            background: "#0850bb",
+                            padding: "18px",
+                            border: "none",
+                            color: "#ffffff",
+                            borderRadius: "10px",
+                            flexGrow: "1",
+                            display: "flex",
+                            gap: "5px",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          onClick={() => likeCourse(video?._id, user?._id)}
+                        >
+                          <MdFavorite style={{ color: "white" }} />
+                          Wishlist
+                        </button>
+                      )}
                     </div>
                   </div>
                   <div className="right">

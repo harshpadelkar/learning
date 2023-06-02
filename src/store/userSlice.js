@@ -7,7 +7,11 @@ export const userSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      const _id = action.payload.uid;
+      const userName = action.payload.displayName;
+      const image = action.payload.photoURL;
+
+      state.user = { _id, userName, image };
     },
     getUser: (state, action) => {
       state.categoriesLoading = action.payload;

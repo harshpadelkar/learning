@@ -60,7 +60,7 @@ const useHarsh = (url) => {
       });
   }, [url]);
 
-  return { data, loading, error };
+  return { data, loading, setData, error };
 };
 
 export default useHarsh;

@@ -8,7 +8,7 @@ import ContentWrapper from "../../components/contentWrapper/ContentWrapper";
 import useHarsh from "../../hooks/useHarsh";
 import { coursesHomePage } from "../../query";
 import Spinner from "../../components/spinner/Spinner";
-import MovieCard from "../../components/movieCard/MovieCard";
+import CourseCard from "../../components/courseCard/CourseCard";
 
 const SearchResult = () => {
   const { query } = useParams();
@@ -28,14 +28,15 @@ const SearchResult = () => {
         <ContentWrapper>
           {data?.length > 0 ? (
             <>
-              {/* <div className="pageTitle">
-                {`Search ${
-                  data?.length > 1 ? "results" : "result"
-                } of '${query}'`}
-              </div> */}
-
               {data?.map((item, index) => {
-                return <MovieCard key={index} data={item} fromSearch={true} />;
+                return (
+                  <CourseCard
+                    key={index}
+                    data={item}
+                    fromSearch={true}
+                    i={index}
+                  />
+                );
               })}
             </>
           ) : (
