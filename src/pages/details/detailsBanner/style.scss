@@ -46,6 +46,9 @@
     }
     .left {
       flex-shrink: 0;
+      @include lg {
+        flex-basis: 400px;
+      }
       span {
         width: 100%;
       }

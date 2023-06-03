@@ -17,12 +17,19 @@
       flex-grow: 2;
       .image {
         border-radius: 10px;
-        @include gg {
-          object-fit: cover;
-          object-position: top;
-          width: 64px;
-          height: 64px;
-          border-radius: 2px;
+        width: 64px;
+        height: 64px;
+        border-radius: 2px;
+        object-fit: cover;
+        object-position: top;
+        @include md {
+          width: 320px;
+          height: 180px;
+        }
+        @include lg {
+          width: 320px;
+          height: 180px;
+          aspect-ratio: 16 / 9;
         }
       }
     }
