@@ -15,8 +15,6 @@ import { setUser } from "./store/userSlice";
 
 function App() {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.courses);
-  const { categoriesData } = useSelector((state) => state.categories);
 
   useEffect(() => {
     firebaseAuth.onAuthStateChanged((result) => {
@@ -48,7 +46,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/:mediaType/:id" element={<Details />} />
         <Route path="/search/:query" element={<SearchResult />} />
-        {/* <Route path="/explore/:mediaType" element={<Explore />} /> */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

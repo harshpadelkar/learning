@@ -13,11 +13,7 @@ import { useSelector } from "react-redux";
 const Details = () => {
   const { mediaType, id } = useParams();
 
-  const { user } = useSelector((state) => state.user);
-
   const { data, loading, setData } = useHarsh(getCourse(id));
-
-  console.log(data);
 
   return (
     <div>

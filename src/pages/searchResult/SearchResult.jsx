@@ -15,11 +15,6 @@ const SearchResult = () => {
 
   const { data, loading } = useHarsh(getSearchResults(query));
 
-  console.log(data);
-
-  const [pageNum, setPageNum] = useState(1);
-
-
   return (
     <div className="searchResultsPage">
       {loading && <Spinner initial={true} />}
@@ -39,7 +34,9 @@ const SearchResult = () => {
               })}
             </>
           ) : (
-            <span className="resultNotFound">Sorry, Results not found!</span>
+            <span style={{ color: "white" }} className="resultNotFound">
+              Sorry, Results not found!
+            </span>
           )}
         </ContentWrapper>
       )}

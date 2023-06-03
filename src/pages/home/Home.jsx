@@ -12,7 +12,6 @@ const Home = () => {
       <HeroBanner />
       <Trending />
       {/* <Developement /> */}
-      {/* <TopRated /> */}
     </div>
   );
 };

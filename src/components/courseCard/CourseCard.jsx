@@ -13,7 +13,6 @@ import StarRatings from "react-star-ratings";
 const CourseCard = ({ data, fromSearch, mediaType, i }) => {
   const [starWidth, setStarWidth] = useState(22);
   const clientWidth = useRef();
-  const { url } = useSelector((state) => state.home);
   const navigate = useNavigate();
 
   useEffect(() => {
