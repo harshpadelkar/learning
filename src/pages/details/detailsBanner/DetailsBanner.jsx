@@ -23,6 +23,7 @@ const DetailsBanner = ({ video, loading, setData }) => {
   const [show, setShow] = useState(false);
   const [videoId, setVideoId] = useState(null);
   const [alreadyLiked, setAlreadyLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
 
   const { user } = useSelector((state) => state.user);
   let alreadyLikedByUser = video?.likes?.filter((like) => {
@@ -30,20 +31,24 @@ const DetailsBanner = ({ video, loading, setData }) => {
   });
 
   const likeCourse = async (course, userID) => {
-    const data = {
-      userId: userID,
-      courseId: course,
-    };
+    setIsLoading(true);
+    if (user) {
+      const data = {
+        userId: userID,
+        courseId: course,
+      };
 
-    await updateWishlistedCourse(data);
+      await updateWishlistedCourse(data);
 
-    client.fetch(getCourse(video?._id)).then((res) => {
-      console.log(res);
-      setData(res);
-    });
+      client.fetch(getCourse(video?._id)).then((res) => {
+        setData(res);
+        setIsLoading(null);
+      });
+    }
   };
 
   const unlike = async (course, userID) => {
+    setIsLoading(true);
     if (user) {
       const data = {
         userId: userID,
@@ -52,11 +57,18 @@ const DetailsBanner = ({ video, loading, setData }) => {
 
       await updateUnWishLishtedCourse(data);
       client.fetch(getCourse(video?._id)).then((res) => {
-        console.log(res);
         setData(res);
+        setIsLoading(null);
       });
     }
   };
+
+  const arrRatings = video?.ratings;
+  const totalRatingPoints = arrRatings?.reduce((acc, rating) => {
+    const total = acc + rating;
+    return total;
+  }, 0);
+  const rating = totalRatingPoints / video?.ratings?.length;
 
   useEffect(() => {
     if (alreadyLikedByUser?.length > 0) {
@@ -81,7 +93,7 @@ const DetailsBanner = ({ video, loading, setData }) => {
                       style={{ cursor: "pointer" }}
                       onClick={() => {
                         setShow(true);
-                        setVideoId(video?.videoUrl);
+                        setVideoId(video?.video);
                       }}
                     >
                       <Img className="posterImg" src={video?.image} />
@@ -94,63 +106,22 @@ const DetailsBanner = ({ video, loading, setData }) => {
                         gap: "10px",
                         padding: "20px 0",
                       }}
-                      className=" w-full flex gap-2 py-3 px-2"
+                      className="button-container"
                     >
-                      <button
-                        style={{
-                          cursor: "pointer",
-                          fontSize: "15px",
-                          fontWeight: "600",
-                          background: "#0850bb",
-                          padding: "18px 0",
-                          border: "none",
-                          color: "#ffffff",
-                          borderRadius: "10px",
-                          flexGrow: "1",
-                        }}
-                        className="cursor-pointer w-full  text-base py-4 font-bold bg-green-600 "
-                      >
-                        Entroll Now
-                      </button>
+                      <button className="fav-button">Entroll Now</button>
                       {alreadyLiked ? (
                         <button
-                          style={{
-                            cursor: "pointer",
-                            fontSize: "15px",
-                            fontWeight: "600",
-                            background: "#0850bb",
-                            padding: "18px 0",
-                            border: "none",
-                            color: "#ffffff",
-                            borderRadius: "10px",
-                            flexGrow: "1",
-                            display: "flex",
-                            gap: "5px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
+                          className="fav-button button-flex"
                           onClick={() => unlike(video?._id, user?._id)}
+                          disabled={isLoading}
                         >
                           <MdFavorite style={{ color: "red" }} />
                           Wishlisted
                         </button>
                       ) : (
                         <button
-                          style={{
-                            cursor: "pointer",
-                            fontSize: "15px",
-                            fontWeight: "600",
-                            background: "#0850bb",
-                            padding: "18px 0",
-                            border: "none",
-                            color: "#ffffff",
-                            borderRadius: "10px",
-                            flexGrow: "1",
-                            display: "flex",
-                            gap: "5px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
+                          className="fav-button button-flex"
+                          disabled={isLoading}
                           onClick={() => likeCourse(video?._id, user?._id)}
                         >
                           <MdFavorite style={{ color: "white" }} />
@@ -161,21 +132,21 @@ const DetailsBanner = ({ video, loading, setData }) => {
                   </div>
                   <div className="right">
                     <div className="title">
-                      {`${video?.courseName} (${dayjs(
-                        video?.publishedAt
-                      ).format("YYYY")})`}
+                      {`${video?.title} (${dayjs(video?.publishedAt).format(
+                        "YYYY"
+                      )})`}
                     </div>
-                    <div className="subtitle">{video?.courseName}</div>
+                    <div className="subtitle">{video?.subtitle}</div>
 
-                    <Genres data={video?.topic} />
+                    <Genres data={video?.category} />
 
                     <div className="row">
-                      <CircleRating rating={4.9} />
+                      <CircleRating rating={rating && rating} />
                       <div
                         className="playbtn"
                         onClick={() => {
                           setShow(true);
-                          setVideoId(video?.videoUrl);
+                          setVideoId(video?.video);
                         }}
                       >
                         <PlayIcon />
@@ -185,7 +156,7 @@ const DetailsBanner = ({ video, loading, setData }) => {
 
                     <div style={{ marginTop: "18px" }} className="overview">
                       <div className="heading">Overview</div>
-                      <div className="description">{video?.courseName}</div>
+                      <div className="description">{video?.description}</div>
                     </div>
 
                     <div className="info">
@@ -199,17 +170,17 @@ const DetailsBanner = ({ video, loading, setData }) => {
                       )}
                       {
                         <div className="infoItem">
-                          <span className="text bold">Runtime: </span>
-                          <span className="text">2h 50m</span>
+                          <span className="text bold">Ratings: </span>
+                          <span className="text">12 students</span>
                         </div>
                       }
                     </div>
 
-                    {video?.publishedBy?.image && (
+                    {video?.authorImage && (
                       <div className="info">
                         <span className="text bold">Educater: </span>
                         <span className="text">
-                          <span>{video?.publishedBy?.userName}</span>
+                          <span>{video?.authorName}</span>
                         </span>
                       </div>
                     )}

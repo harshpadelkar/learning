@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { courses, coursesHomePage, getCourse } from "../../query";
+import { coursesHomePage, getCourse } from "../../query";
 
 import "./style.scss";
 
@@ -17,11 +17,13 @@ const Details = () => {
 
   const { data, loading, setData } = useHarsh(getCourse(id));
 
+  console.log(data);
+
   return (
     <div>
       <DetailsBanner video={data?.[0]} loading={loading} setData={setData} />
       <Cast data={data?.[0]} loading={loading} />
-      <Accordion items={data?.[0]?.lectures} />
+      <Accordion sections={data?.[0]?.sections} />
     </div>
   );
 };

@@ -1,7 +1,17 @@
-import React, { useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill,
+} from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import Img from "../lazyLoadImage/Img";
@@ -10,6 +20,8 @@ import "./style.scss";
 import StarRatings from "react-star-ratings";
 
 const Carousel = ({ data, loading }) => {
+  const [width, setWidth] = useState(0);
+  const carouselContainer = useRef();
   const navigate = useNavigate();
 
   const loadingSkeleton = () => {
@@ -22,23 +34,55 @@ const Carousel = ({ data, loading }) => {
     );
   };
 
+  const navigation = (dir) => {
+    const container = carouselContainer.current;
+
+    const scrollAmount =
+      dir === "left"
+        ? container.scrollLeft - (container.offsetWidth + 20)
+        : container.scrollLeft + (container.offsetWidth + 20);
+
+    container.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="videosSection">
+      <BsFillArrowLeftCircleFill
+        style={{ color: "white" }}
+        className="carouselLeftNav arrow"
+        onClick={() => navigation("left")}
+      />
+      <BsFillArrowRightCircleFill
+        style={{ color: "white" }}
+        className="carouselRighttNav arrow"
+        onClick={() => navigation("right")}
+      />
       <ContentWrapper>
         {!loading ? (
-          <div className="videos">
-            {data?.map((course) => {
-              const url = course?.image;
+          <div ref={carouselContainer} className="videos">
+            {data?.map((course, i, courses) => {
+              const arrRatings = course?.ratings;
+              const totalRatingPoints = arrRatings?.reduce((acc, rating) => {
+                const total = acc + rating;
+                return total;
+              }, 0);
+              const rating = totalRatingPoints / course.ratings.length;
+
               return (
                 <div
                   key={course?._id}
                   className="videoItem"
-                  onClick={() => navigate(`/${course?.topic}/${course?._id}`)}
+                  onClick={() =>
+                    navigate(`/${course?.category}/${course?._id}`)
+                  }
                 >
                   <div className="videoThumbnail">
-                    <Img src={url} />
+                    <Img src={course?.image} />
                   </div>
-                  <div className="videoTitle">{course?.courseName}</div>
+                  <div className="videoTitle">{course?.title}</div>
 
                   <div
                     style={{
@@ -51,9 +95,10 @@ const Carousel = ({ data, loading }) => {
                       <div className="videoName">{course?.authorName}</div>
                       <StarRatings
                         starRatedColor="#ffa900"
-                        rating={1}
+                        rating={rating}
                         starDimension="20px"
                         starSpacing="0px"
+                        numberOfStars={5}
                       />
                     </div>
 
@@ -92,52 +137,3 @@ const Carousel = ({ data, loading }) => {
 };
 
 export default Carousel;
-
-// <div className="carousel">
-//       <ContentWrapper>
-//         {title && <div className="carouselTitle">{title}</div>}
-//         <BsFillArrowLeftCircleFill
-//           className="carouselLeftNav arrow"
-//           onClick={() => navigation("left")}
-//         />
-//         <BsFillArrowRightCircleFill
-//           className="carouselRighttNav arrow"
-//           onClick={() => navigation("right")}
-//         />
-//         {!loading ? (
-//           <div className="carouselItems" ref={carouselContainer}>
-//             {data?.map((item) => {
-// const { url } = item.courseImage.asset;
-// console.log(url);
-//               return (
-//                 <div
-//                   key={item._id}
-//                   className="carouselItem"
-// onClick={() => navigate(`/${item.topic}/${item._id}`)}
-//                 >
-//                   <div className="posterBlock">
-//                     <Img src={url} />
-//                     {/* <CircleRating rating={item.vote_average.toFixed(1)} /> */}
-//                     <Genres data={item.topic} />
-//                   </div>
-//                   <div className="textBlock">
-//                     <span className="title">{item.courseName}</span>
-//                     <span className="date">
-//                       {dayjs(item.publishedAt).format("MMM D, YYYY")}
-//                     </span>
-//                   </div>
-//                 </div>
-//               );
-//             })}
-//           </div>
-//         ) : (
-//           <div className="loadingSkeleton">
-//             {skItem()}
-//             {skItem()}
-//             {skItem()}
-//             {skItem()}
-//             {skItem()}
-//           </div>
-//         )}
-//       </ContentWrapper>
-//     </div>

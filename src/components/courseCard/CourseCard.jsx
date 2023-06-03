@@ -30,7 +30,7 @@ const CourseCard = ({ data, fromSearch, mediaType, i }) => {
         borderTop: `${i !== 0 ? "0.1px solid #ffffff4d" : "0"}`,
         paddingTop: `${i === 0 ? "0" : "2rem"}`,
       }}
-      onClick={() => navigate(`/${data?.topic}/${data?._id}`)}
+      onClick={() => navigate(`/${data?.category}/${data?._id}`)}
       className="container"
       ref={clientWidth}
     >
@@ -41,7 +41,7 @@ const CourseCard = ({ data, fromSearch, mediaType, i }) => {
 
         <div className="searchContent">
           <div className="contentContainer">
-            <h3 className="heading">{data?.courseName}</h3>
+            <h3 className="heading">{data?.title}</h3>
             <div>
               <div className="authorName">{data?.authorName}</div>
               <div className="starRatings">
@@ -51,7 +51,7 @@ const CourseCard = ({ data, fromSearch, mediaType, i }) => {
                   starDimension={`${starWidth}px`}
                   starSpacing="0px"
                 />
-                <p>( {data?.likes?.length} )</p>
+                <p>( {data?.ratings.length} )</p>
               </div>
             </div>
             <p className="description">{data?.description}</p>

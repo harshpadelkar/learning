@@ -1,53 +1,3 @@
-export const courses = `*[_type == "course"] | order(_createdAt desc){
-    _id,
-   courseName,
-   courseImage{
-     asset->{
-       _id,
-       url
-     }
-   },
-   video{
-     asset->{
-       _id,
-       url
-     }
-   },
- likes,
- comments[]{
-   comment,
-   _key,
-   postedBy->{
-   _id,
-   userName,
-   image
- },
-},
-postedBy->{
-    _id,
-    userName,
-    image
-  },
-topic,
-active,
-publishedAt,
-post[]->{
- _id,
- caption,
- video{
-   asset->{
-     _id,
-     url
-   }
- },
- postedBy->{
-   _id,
-   userName,
-   image
- },
-}
-}`;
-
 export const coursesHomePage = `*[_type == "course"] | order(_createdAt desc){
   _id,
  courseName,
@@ -111,43 +61,55 @@ export const getUserData = (userId) => {
 };
 
 export const getCourse = (courseId) => {
-  return `*[_type == "course" && _id == "${courseId}"] | order(_createdAt desc){
+  return `*[_type == "courseTest" && _id == "${courseId}"] | order(_createdAt desc){
     _id,
-   courseName,
-   "image": courseImage.asset->url,
-   "searchImage": searchImage.asset->url,
+    title,
+    "image": image.asset->url,
+    subtitle,
    description,
    "authorName": postedBy->.userName,
    "authorImage": postedBy->.image,
-   "videoUrl": video.asset->url,
-   "videoDetails": video.asset->,
-   comments[]{
-    comment,
-    _key,
-    "userName": postedBy->userName,
-    "image": postedBy->image
-    },
-    "lectures": post[]->{
-      _id,
+   "video": video.asset->url,
+    sections[]{
       _key,
-      "title": caption,
-      "video": video.asset->url,
-     },
-    likes,
-    topic,
-    active,
+      section,
+      lectures[]{
+        _key,
+        "video": video.asset->url,
+        caption
+      }
+    },
+    "ratings": ratings[].feedback,
+    category,
     publishedAt,
+    likes
   }`;
 };
 
 export const getCarouselData = (userId) => {
   return `*[_type == "courseTest"] | order(_createdAt desc){
     _id,
-   title,
+    title,
    "image": image.asset->url,
    "video": video.asset->url,
    "authorName": postedBy->.userName,
-   "ratings": ratings[].feedback
-  }
-   `;
+   "ratings": ratings[].feedback,
+   category,
+  }`;
+};
+
+export const searchPostQuery = (searchTerm) => {
+  const query = `*[_type == "courseTest" && title match '${searchTerm}*' || category match '${searchTerm}*']`;
+};
+
+export const getSearchResults = (query) => {
+  return `*[_type == "courseTest" && title match '${query}*' || category match '${query}*'] | order(_createdAt desc){
+    _id,
+    title,
+    "image": image.asset->url,
+    description,
+   "authorName": postedBy->.userName,
+    "ratings": ratings[].feedback,
+    category,
+  }`;
 };

@@ -4,9 +4,7 @@ import ContentWrapper from "../contentWrapper/ContentWrapper";
 import Lectures from "../lectures/Lectures";
 import VideoPopup from "../videoPopup/VideoPopup";
 
-const Accordion = ({ items }) => {
-  const [show, setShow] = useState(false);
-  const [videoId, setVideoId] = useState(null);
+const Accordion = ({ sections }) => {
   const [active, setActive] = useState();
 
   const handleClick = (name) => {
@@ -17,27 +15,19 @@ const Accordion = ({ items }) => {
     <ContentWrapper style={{ marginBottom: "50px" }}>
       <div className="sectionHeading">Course Content</div>
       <AccordionContainer>
-        {items?.map((item, i, lectures) => {
-          let isActive = active === item?.title;
+        {sections?.map((section, i, sections) => {
+          let isActive = active === section?._key;
           return (
             <AccordionContent
-              key={item?._id}
-              link={item?.video}
-              onClick={() => handleClick(item?.title)}
-              itemName={item?.title}
+              key={section?._key}
+              onClick={() => handleClick(section?._key)}
+              itemName={section?.section}
               isActive={isActive}
-              itemContent={<Lectures lectures={lectures && lectures} />}
+              itemContent={<Lectures lectures={section?.lectures} />}
             />
           );
         })}
       </AccordionContainer>
-
-      <VideoPopup
-        show={show}
-        setShow={setShow}
-        videoId={videoId}
-        setVideoId={setVideoId}
-      />
     </ContentWrapper>
   );
 };

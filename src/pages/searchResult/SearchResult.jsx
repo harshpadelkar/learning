@@ -6,20 +6,19 @@ import "./style.scss";
 
 import ContentWrapper from "../../components/contentWrapper/ContentWrapper";
 import useHarsh from "../../hooks/useHarsh";
-import { coursesHomePage } from "../../query";
+import { coursesHomePage, getSearchResults } from "../../query";
 import Spinner from "../../components/spinner/Spinner";
 import CourseCard from "../../components/courseCard/CourseCard";
 
 const SearchResult = () => {
   const { query } = useParams();
 
-  const { data, loading } = useHarsh(coursesHomePage);
+  const { data, loading } = useHarsh(getSearchResults(query));
 
   console.log(data);
 
   const [pageNum, setPageNum] = useState(1);
 
-  console.log(data);
 
   return (
     <div className="searchResultsPage">

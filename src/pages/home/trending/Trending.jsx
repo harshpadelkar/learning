@@ -6,16 +6,15 @@ import SwitchTabs from "../../../components/switchTabs/SwitchTabs";
 
 import { useSelector } from "react-redux";
 import useHarsh from "../../../hooks/useHarsh";
-import { coursesHomePage } from "../../../query";
+import { coursesHomePage, getCarouselData } from "../../../query";
 
 const Trending = () => {
   // const data = useSelector((state) => state.courses.data);
   // const loading = useSelector((state) => state.courses.loading);
 
-  // const { data, loading } = useHarsh(coursesHomePage);
-  
+  const { data, loading } = useHarsh(getCarouselData());
 
-  // console.log(data);
+  console.log(data);
 
   return (
     <div className="carouselSection">
