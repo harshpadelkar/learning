@@ -11,7 +11,6 @@ import {
 } from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import Img from "../lazyLoadImage/Img";

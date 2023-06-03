@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { HiOutlineSearch, HiOutlineLogout } from "react-icons/hi";
-import { SlMenu } from "react-icons/sl";
 import { BsFillCaretDownFill } from "react-icons/bs";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -9,12 +8,8 @@ import "./style.scss";
 import userPlaceholder from "../../assets//user-placeholder.svg";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
-import logo from "../../assets/movix-logo.svg";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-} from "firebase/auth";
+import logo from "../../assets/learning-sphere.png";
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 import { firebaseAuth } from "../../config/firebase.config";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserNull } from "../../store/userSlice";
@@ -99,25 +94,11 @@ const Header = () => {
     setShowMenMenu((state) => !state);
   };
 
-  const openMobileMenu = () => {
-    setMobileMenu(true);
-    setShowSearch(false);
-  };
-
-  const navigationHandler = (type) => {
-    if (type === "movie") {
-      navigate("/explore/movie");
-    } else {
-      navigate("/explore/tv");
-    }
-    setMobileMenu(false);
-  };
-
   return (
     <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
       <ContentWrapper>
         <div className="logo" onClick={() => navigate("/")}>
-          <img src={logo} alt="" />
+          <img src={logo} alt="learningsphere logo" />
         </div>
         <div
           style={{
